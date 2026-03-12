@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "PDF to HTML Converter",
+  "version": "0.1.0",
+  "description": "Transforms PDF files into accessible HTML pages locally.",
+  "author": "Open Source Contributor",
+  "homepage_url": "https://github.com/your-repo/pdf2html_convert",
+
+  "icons": {
+    "48": "src/assets/icons/icon-48.png",
+    "96": "src/assets/icons/icon-96.png"
+  },
+
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+
+  "background": {
+    "scripts": ["src/background/index.js"],
+    "type": "module"
+  },
+
+  "action": {
+    "default_popup": "src/ui/popup/index.html",
+    "default_title": "Convert PDF"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*/*.pdf", "file:///*.pdf"],
+      "js": ["src/content/viewer-injector.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "pdf2html@local.dev",
+      "strict_min_version": "109.0"
+    }
+  },
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none';"
+  }
+}
